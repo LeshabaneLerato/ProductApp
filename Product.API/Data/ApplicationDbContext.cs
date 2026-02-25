@@ -1,15 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using YourProjectName.Domain;
-
-namespace YourProjectName.Domain
+using ProductApi.Models;
+namespace ProductApi.Models
 {
-	public class ApplicationDbContext : DbContext
+	public class AppDbContext : DbContext
 	{
-		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+		public AppDbContext(DbContextOptions<AppDbContext> options)
 			: base(options)
 		{
 		}
 
 		public DbSet<Product> Products { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<Product>()
+				.Property(p => p.Price)
+				.HasColumnType("decimal(18,2)");
+
+			base.OnModelCreating(modelBuilder);
+		}
 	}
 }
